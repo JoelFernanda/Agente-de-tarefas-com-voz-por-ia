@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JHONES — Assistente Operacional</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --blue-50:#eff6ff;
+    --blue-100:#dbeafe;
+    --blue-200:#bfdbfe;
+    --blue-400:#60a5fa;
+    --blue-500:#3b82f6;
+    --blue-600:#2563eb;
+    --blue-700:#1d4ed8;
+    --blue-900:#1e3a8a;
+
+    --white:#ffffff;
+    --bg:#f5f7fb;
+    --text:#0f172a;
+    --muted:#64748b;
+    --line:#e2e8f0;
+
+    --green:#10b981;
+    --amber:#f59e0b;
+    --violet:#8b5cf6;
+
+    --shadow-sm:0 1px 2px rgba(15,23,42,.06);
+    --shadow:0 4px 16px rgba(15,23,42,.06);
+    --shadow-lg:0 12px 40px rgba(37,99,235,.12);
+    --shadow-blue:0 10px 30px rgba(37,99,235,.28);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+}
+
+/* ================= TOPBAR ================= */
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    height:68px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:0 28px;
+    background:rgba(255,255,255,.85);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.brand-mark{
+    width:36px;
+    height:36px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--blue-500),var(--blue-700));
+    display:grid;
+    place-items:center;
+    color:#fff;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:16px;
+    box-shadow:var(--shadow-blue);
+}
+
+.brand-name{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:17px;
+    letter-spacing:-.3px;
+}
+
+.brand-name span{
+    color:var(--blue-600);
+}
+
+/* TABS */
+.tabs{
+    display:flex;
+    gap:4px;
+    background:var(--blue-50);
+    padding:5px;
+    border-radius:14px;
+    border:1px solid var(--blue-100);
+}
+
+.tab{
+    border:none;
+    background:transparent;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+    color:var(--muted);
+    padding:9px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition:all .22s ease;
+    letter-spacing:-.1px;
+}
+
+.tab svg{
+    width:16px;
+    height:16px;
+}
+
+.tab:hover{
+    color:var(--blue-600);
+}
+
+.tab.active{
+    background:var(--white);
+    color:var(--blue-700);
+    box-shadow:var(--shadow-sm);
+}
+
+.user-chip{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:6px 14px 6px 6px;
+    background:var(--blue-50);
+    border:1px solid var(--blue-100);
+    border-radius:999px;
+}
+
+.user-avatar{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--blue-400),var(--blue-600));
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-weight:700;
+    font-size:13px;
+}
+
+.user-name{
+    font-size:13px;
+    font-weight:600;
+    color:var(--blue-900);
+}
+
+/* ================= VIEWS ================= */
+.view{
+    display:none;
+    animation:fadeUp .4s ease both;
+}
+
+.view.active{
+    display:block;
+}
+
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* ================= JHONES VIEW ================= */
+.jhones-view{
+    max-width:720px;
+    margin:0 auto;
+    padding:48px 24px 60px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+}
+
+.greet-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.8px;
+    text-transform:uppercase;
+    color:var(--blue-600);
+    background:var(--blue-50);
+    border:1px solid var(--blue-100);
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:18px;
+}
+
+.greet-tag::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--blue-500);
+    box-shadow:0 0 0 3px rgba(59,130,246,.2);
+    animation:blink 2s infinite;
+}
+
+@keyframes blink{
+    0%,100%{opacity:1;}
+    50%{opacity:.35;}
+}
+
+.greet-h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:38px;
+    font-weight:700;
+    letter-spacing:-1px;
+    line-height:1.15;
+    margin-bottom:12px;
+}
+
+.greet-h1 em{
+    font-style:normal;
+    background:linear-gradient(120deg,var(--blue-500),var(--blue-700));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.greet-sub{
+    font-size:16px;
+    color:var(--muted);
+    line-height:1.55;
+    max-width:420px;
+    margin-bottom:44px;
+}
+
+/* ORBE DE VOZ */
+.voice-orb{
+    position:relative;
+    width:220px;
+    height:220px;
+    display:grid;
+    place-items:center;
+    margin-bottom:38px;
+}
+
+.orb-ring{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1.5px solid var(--blue-200);
+}
+
+.orb-ring.r1{animation:ripple 3.4s ease-out infinite;}
+.orb-ring.r2{animation:ripple 3.4s ease-out infinite .9s;}
+.orb-ring.r3{animation:ripple 3.4s ease-out infinite 1.8s;}
+
+@keyframes ripple{
+    0%{transform:scale(.55);opacity:.9;}
+    100%{transform:scale(1);opacity:0;}
+}
+
+.orb-core{
+    position:relative;
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:linear-gradient(140deg,#3b82f6 0%,#1d4ed8 100%);
+    display:grid;
+    place-items:center;
+    color:#fff;
+    box-shadow:
+        0 0 0 8px rgba(59,130,246,.08),
+        0 0 0 20px rgba(59,130,246,.04),
+        0 20px 50px rgba(37,99,235,.4);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1.2);
+}
+
+.orb-core svg{
+    width:52px;
+    height:52px;
+    stroke-width:1.8;
+}
+
+.voice-orb.listening .orb-core{
+    background:linear-gradient(140deg,#2563eb 0%,#1e3a8a 100%);
+    animation:breath 1.6s ease-in-out infinite;
+}
+
+@keyframes breath{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.06);}
+}
+
+/* BOTÃO DE MIC */
+.mic-btn{
+    position:relative;
+    border:none;
+    background:linear-gradient(135deg,var(--blue-500),var(--blue-700));
+    color:#fff;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:600;
+    padding:16px 38px;
+    border-radius:999px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:var(--shadow-blue);
+    transition:transform .25s ease, box-shadow .25s ease;
+    letter-spacing:-.1px;
+}
+
+.mic-btn svg{
+    width:18px;
+    height:18px;
+}
+
+.mic-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 36px rgba(37,99,235,.4);
+}
+
+.mic-btn:active{
+    transform:translateY(0);
+}
+
+.mic-btn.listening{
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+    box-shadow:0 10px 30px rgba(220,38,38,.35);
+    animation:pulseRed 1.5s infinite;
+}
+
+@keyframes pulseRed{
+    0%{box-shadow:0 10px 30px rgba(220,38,38,.35), 0 0 0 0 rgba(220,38,38,.5);}
+    70%{box-shadow:0 10px 30px rgba(220,38,38,.35), 0 0 0 18px rgba(220,38,38,0);}
+    100%{box-shadow:0 10px 30px rgba(220,38,38,.35), 0 0 0 0 rgba(220,38,38,0);}
+}
+
+/* CAIXA DE TRANSCRIÇÃO */
+.transcript{
+    width:100%;
+    max-width:560px;
+    margin-top:34px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px 24px;
+    box-shadow:var(--shadow);
+    text-align:left;
+    min-height:96px;
+    position:relative;
+}
+
+.transcript-label{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:var(--blue-600);
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.transcript-label::before{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:2px;
+    background:var(--blue-500);
+}
+
+#voiceText{
+    font-size:15px;
+    line-height:1.5;
+    color:var(--text);
+    font-weight:500;
+}
+
+/* DIAGNÓSTICO */
+.diag-box{
+    margin-top:20px;
+    padding:16px 20px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    font-size:13px;
+    line-height:1.9;
+    text-align:left;
+    max-width:560px;
+    width:100%;
+    box-shadow:var(--shadow-sm);
+}
+
+.diag-title{
+    font-weight:700;
+    color:var(--blue-600);
+    margin-bottom:8px;
+    font-size:13px;
+}
+
+.diag-line{color:var(--muted);}
+
+/* INPUT DE TEXTO */
+.text-cmd-box{
+    margin-top:24px;
+    width:100%;
+    max-width:560px;
+}
+
+.text-cmd-label{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:10px;
+    text-align:left;
+}
+
+.text-cmd-row{
+    display:flex;
+    gap:8px;
+}
+
+#cmdInput{
+    flex:1;
+    padding:14px 16px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    font-family:inherit;
+    font-size:14px;
+    outline:none;
+    transition:border .2s, box-shadow .2s;
+    background:var(--white);
+}
+
+#cmdInput:focus{
+    border-color:var(--blue-500);
+    box-shadow:0 0 0 4px rgba(59,130,246,.12);
+}
+
+#cmdBtn{
+    padding:14px 24px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--blue-500),var(--blue-700));
+    color:#fff;
+    font-family:inherit;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition:transform .2s, box-shadow .2s;
+    box-shadow:var(--shadow-sm);
+    white-space:nowrap;
+}
+
+#cmdBtn:hover{
+    transform:translateY(-1px);
+    box-shadow:var(--shadow-blue);
+}
+
+/* HISTÓRICO */
+.history-box{
+    width:100%;
+    max-width:560px;
+    margin-top:26px;
+    text-align:left;
+}
+
+.history-title{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:12px;
+}
+
+.history-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 16px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:12px;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:500;
+    animation:fadeUp .35s ease both;
+}
+
+.history-item::before{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--blue-500);
+    box-shadow:0 0 0 4px rgba(59,130,246,.14);
+    flex-shrink:0;
+}
+
+.history-item .time{
+    margin-left:auto;
+    font-size:12px;
+    font-weight:600;
+    color:var(--muted);
+}
+
+/* ================= TASKS VIEW ================= */
+.tasks-view{
+    max-width:1200px;
+    margin:0 auto;
+    padding:34px 24px 70px;
+}
+
+.tasks-header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:26px;
+    flex-wrap:wrap;
+}
+
+.tasks-header h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:-.6px;
+    margin-bottom:6px;
+}
+
+.tasks-header p{
+    color:var(--muted);
+    font-size:15px;
+}
+
+.date-chip{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--blue-900);
+    box-shadow:var(--shadow-sm);
+}
+
+.date-chip svg{
+    width:16px;
+    height:16px;
+    color:var(--blue-600);
+}
+
+/* CARD DESTAQUE */
+.hero-card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#2563eb 0%,#1d4ed8 55%,#1e3a8a 100%);
+    border-radius:24px;
+    padding:32px 34px;
+    color:#fff;
+    margin-bottom:24px;
+    box-shadow:var(--shadow-lg);
+}
+
+.hero-card::before{
+    content:"";
+    position:absolute;
+    top:-70px;
+    right:-70px;
+    width:230px;
+    height:230px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+}
+
+.hero-card::after{
+    content:"";
+    position:absolute;
+    bottom:-90px;
+    right:60px;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+}
+
+.hero-top{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:16px;
+}
+
+.hero-label{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    opacity:.75;
+    margin-bottom:8px;
+}
+
+.hero-value{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:46px;
+    font-weight:700;
+    letter-spacing:-1.5px;
+    line-height:1;
+}
+
+.hero-value small{
+    font-size:15px;
+    font-weight:500;
+    opacity:.7;
+    margin-left:8px;
+    letter-spacing:0;
+}
+
+.hero-progress{
+    position:relative;
+    z-index:1;
+    margin-top:26px;
+    background:rgba(255,255,255,.14);
+    border-radius:999px;
+    height:8px;
+    overflow:hidden;
+}
+
+.hero-progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,#60a5fa,#bfdbfe);
+    border-radius:999px;
+    width:33%;
+    transition:width .6s cubic-bezier(.3,.9,.3,1);
+}
+
+.hero-footer{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+    font-size:12px;
+    opacity:.75;
+    font-weight:500;
+}
+
+/* MÉTRICAS */
+.metrics-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:26px;
+}
+
+.metric-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    cursor:default;
+}
+
+.metric-card:hover{
+    transform:translateY(-3px);
+    border-color:var(--blue-200);
+    box-shadow:var(--shadow);
+}
+
+.metric-icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    margin-bottom:14px;
+}
+
+.metric-icon svg{width:20px;height:20px;}
+
+.metric-icon.blue{background:var(--blue-50);color:var(--blue-600);}
+.metric-icon.green{background:#ecfdf5;color:var(--green);}
+.metric-icon.violet{background:#f5f3ff;color:var(--violet);}
+.metric-icon.amber{background:#fffbeb;color:var(--amber);}
+
+.metric-label{
+    font-size:12px;
+    font-weight:600;
+    color:var(--muted);
+    letter-spacing:.3px;
+    margin-bottom:6px;
+}
+
+.metric-value{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:-1px;
+}
+
+/* LISTA DE CARDS */
+.cards-section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+}
+
+.cards-section-title h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:18px;
+    font-weight:700;
+    letter-spacing:-.3px;
+}
+
+.pill-count{
+    font-size:12px;
+    font-weight:600;
+    color:var(--blue-700);
+    background:var(--blue-50);
+    border:1px solid var(--blue-100);
+    padding:5px 12px;
+    border-radius:999px;
+}
+
+.cards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:16px;
+}
+
+.task-card{
+    position:relative;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    animation:fadeUp .4s ease both;
+}
+
+.task-card:hover{
+    transform:translateY(-3px);
+    border-color:var(--blue-200);
+    box-shadow:var(--shadow);
+}
+
+.task-card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:16px;
+}
+
+.task-badge{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    flex-shrink:0;
+}
+
+.task-badge svg{width:20px;height:20px;}
+
+.task-card.done .task-badge{background:#ecfdf5;color:var(--green);}
+.task-card.progress .task-badge{background:#f5f3ff;color:var(--violet);}
+.task-card.pending .task-badge{background:#fffbeb;color:var(--amber);}
+
+.task-status{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 11px;
+    border-radius:999px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+}
+
+.task-status::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:currentColor;
+}
+
+.task-card.done .task-status{color:var(--green);background:#ecfdf5;}
+.task-card.progress .task-status{color:var(--violet);background:#f5f3ff;}
+.task-card.pending .task-status{color:#b45309;background:#fffbeb;}
+
+.task-title{
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:-.2px;
+    margin-bottom:6px;
+    color:var(--text);
+}
+
+.task-meta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:var(--muted);
+    font-weight:500;
+}
+
+.task-meta svg{
+    width:14px;
+    height:14px;
+}
+
+/* RESPONSIVO */
+@media(max-width:850px){
+    .topbar{padding:0 16px;}
+    .brand-name{display:none;}
+    .tab{padding:8px 14px;font-size:13px;}
+    .user-name{display:none;}
+    .user-chip{padding:5px;}
+    .jhones-view{padding:32px 18px 50px;}
+    .greet-h1{font-size:28px;}
+    .voice-orb{width:180px;height:180px;}
+    .orb-core{width:110px;height:110px;}
+    .orb-core svg{width:42px;height:42px;}
+    .tasks-view{padding:24px 18px 50px;}
+    .tasks-header h1{font-size:24px;}
+    .hero-value{font-size:38px;}
+    .metrics-grid{grid-template-columns:repeat(2,1fr);}
+    .hero-card{padding:24px;}
+}
+
+@media(max-width:420px){
+    .tab span{display:none;}
+    .tab{padding:10px 14px;}
+    .metrics-grid{grid-template-columns:1fr 1fr;}
+    .metric-value{font-size:24px;}
+    .text-cmd-row{flex-direction:column;}
+    #cmdBtn{width:100%;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+
+    <div class="brand">
+        <div class="brand-mark">J</div>
+        <div class="brand-name">JHONES<span>.</span></div>
+    </div>
+
+    <nav class="tabs">
+        <button class="tab active" data-view="jhones">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <span>JHONES</span>
+        </button>
+        <button class="tab" data-view="tasks">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span>Tarefas</span>
+        </button>
+    </nav>
+
+    <div class="user-chip">
+        <div class="user-avatar">J</div>
+        <div class="user-name">Joel</div>
+    </div>
+
+</header>
+
+
+<!-- ================= VIEW: JHONES ================= -->
+<main id="view-jhones" class="view active">
+
+    <section class="jhones-view">
+
+        <div class="greet-tag">Sistema ativo</div>
+
+        <h1 class="greet-h1">
+            Olá Joel, <em>eu sou JHONES.</em>
+        </h1>
+
+        <p class="greet-sub">
+            Fale comigo e eu organizo suas tarefas. Ou digite no campo abaixo — se não for um comando conhecido, eu crio uma tarefa com o que você escrever.
+        </p>
+
+        <div class="voice-orb" id="voiceOrb">
+            <div class="orb-ring r1"></div>
+            <div class="orb-ring r2"></div>
+            <div class="orb-ring r3"></div>
+            <div class="orb-core">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+            </div>
+        </div>
+
+        <button class="mic-btn" id="micBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="23"/>
+            </svg>
+            <span id="micLabel">Falar com JHONES</span>
+        </button>
+
+        <!-- PAINEL DE DIAGNÓSTICO -->
+        <div class="diag-box">
+            <div class="diag-title">🔍 Diagnóstico do sistema</div>
+            <div class="diag-line" id="diagRec">⏳ Testando reconhecimento de voz...</div>
+            <div class="diag-line" id="diagSyn">⏳ Testando síntese de voz...</div>
+            <div class="diag-line" id="diagCtx">⏳ Testando contexto (HTTPS)...</div>
+            <div class="diag-line" id="diagMic">👉 Clique em "Falar com JHONES" para testar o microfone</div>
+        </div>
+
+        <!-- ENTRADA POR TEXTO -->
+        <div class="text-cmd-box">
+            <div class="text-cmd-label">⌨️ Digite um comando ou nome de tarefa</div>
+            <div class="text-cmd-row">
+                <input id="cmdInput" type="text" placeholder="Ex: Mercado as 20:00">
+                <button id="cmdBtn">Enviar</button>
+            </div>
+            <div style="font-size:11px; color:#94a3b8; margin-top:8px; text-align:left;">
+                Comandos: "crie uma tarefa X", "finalizei", "estou a caminho", "minhas tarefas"
+            </div>
+        </div>
+
+        <div class="transcript">
+            <div class="transcript-label">Transcrição</div>
+            <div id="voiceText">Toque no botão e fale comigo...</div>
+        </div>
+
+        <div class="history-box">
+            <div class="history-title">Atividade recente</div>
+            <div id="history"></div>
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= VIEW: TAREFAS ================= -->
+<main id="view-tasks" class="view">
+
+    <section class="tasks-view">
+
+        <div class="tasks-header">
+            <div>
+                <h1>Minhas tarefas</h1>
+                <p>Acompanhe sua programação em tempo real</p>
+            </div>
+            <div class="date-chip">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span id="dateText"></span>
+            </div>
+        </div>
+
+        <div class="hero-card">
+            <div class="hero-top">
+                <div>
+                    <div class="hero-label">Progresso do dia</div>
+                    <div class="hero-value" id="heroValue">33<small>% concluído</small></div>
+                </div>
+            </div>
+            <div class="hero-progress">
+                <div class="hero-progress-fill" id="heroFill"></div>
+            </div>
+            <div class="hero-footer">
+                <span id="heroDone">2 de 6 tarefas</span>
+                <span>Meta: 100%</span>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                </div>
+                <div class="metric-label">Total hoje</div>
+                <div class="metric-value" id="statTotal">6</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon green">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="metric-label">Concluídas</div>
+                <div class="metric-value" id="statDone">2</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon violet">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="metric-label">Em andamento</div>
+                <div class="metric-value" id="statProgress">1</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon amber">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="metric-label">Pendentes</div>
+                <div class="metric-value" id="statPending">3</div>
+            </div>
+        </div>
+
+        <div class="cards-section-title">
+            <h2>Programação</h2>
+            <span class="pill-count" id="taskCount">3 tarefas</span>
+        </div>
+
+        <div class="cards-grid" id="tasksGrid">
+
+            <div class="task-card done">
+                <div class="task-card-top">
+                    <div class="task-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    </div>
+                    <span class="task-status">Concluída</span>
+                </div>
+                <div class="task-title">Retirada de documentos</div>
+                <div class="task-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    09:00 • Centro
+                </div>
+            </div>
+
+            <div class="task-card progress">
+                <div class="task-card-top">
+                    <div class="task-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+                    </div>
+                    <span class="task-status">Em andamento</span>
+                </div>
+                <div class="task-title">Troca de veículo</div>
+                <div class="task-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    15:00 • Butantã
+                </div>
+            </div>
+
+            <div class="task-card pending">
+                <div class="task-card-top">
+                    <div class="task-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                    </div>
+                    <span class="task-status">Pendente</span>
+                </div>
+                <div class="task-title">Conferir documentação</div>
+                <div class="task-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    16:30 • Escritório
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+/* ============ TABS ============ */
+const tabs = document.querySelectorAll(".tab");
+const views = document.querySelectorAll(".view");
+
+tabs.forEach(tab=>{
+    tab.addEventListener("click", ()=>{
+        tabs.forEach(t=>t.classList.remove("active"));
+        views.forEach(v=>v.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById("view-" + tab.dataset.view).classList.add("active");
+    });
+});
+
+
+/* ============ DATA ============ */
+const today = new Date();
+document.getElementById("dateText").innerText =
+today.toLocaleDateString("pt-BR",{day:"2-digit",month:"long",year:"numeric"});
+
+
+/* ============ ELEMENTOS ============ */
+const micBtn = document.getElementById("micBtn");
+const micLabel = document.getElementById("micLabel");
+const voiceText = document.getElementById("voiceText");
+const voiceOrb = document.getElementById("voiceOrb");
+const tasksGrid = document.getElementById("tasksGrid");
+
+let recognition = null;
+let listening = false;
+
+
+/* ============ DIAGNÓSTICO ============ */
+const diagRec = document.getElementById("diagRec");
+const diagSyn = document.getElementById("diagSyn");
+const diagCtx = document.getElementById("diagCtx");
+const diagMic = document.getElementById("diagMic");
+
+function ok(el, msg){ el.innerHTML = "✅ " + msg; el.style.color = "#10b981"; }
+function err(el, msg){ el.innerHTML = "❌ " + msg; el.style.color = "#ef4444"; }
+function warn(el, msg){ el.innerHTML = "⚠️ " + msg; el.style.color = "#f59e0b"; }
+
+// 1. Contexto (HTTPS / localhost)
+const isSecure = location.protocol === "https:" ||
+                 location.hostname === "localhost" ||
+                 location.hostname === "127.0.0.1";
+
+if(isSecure){
+    ok(diagCtx, "Contexto seguro: " + location.protocol + "//" + location.hostname);
+}else{
+    err(diagCtx, "Precisa HTTPS ou localhost. Você está em: " + location.protocol);
+}
+
+// 2. Reconhecimento de voz
+const hasRecognition = ('webkitSpeechRecognition' in window) || ('SpeechRecognition' in window);
+if(hasRecognition){
+    ok(diagRec, "Reconhecimento de voz suportado");
+}else{
+    err(diagRec, "Navegador não suporta. Use Chrome ou Edge.");
+}
+
+// 3. Síntese de voz
+const hasSynth = typeof window.speechSynthesis !== 'undefined' &&
+                 typeof window.SpeechSynthesisUtterance !== 'undefined';
+if(hasSynth){
+    ok(diagSyn, "Síntese de voz suportada");
+}else{
+    warn(diagSyn, "Síntese de voz indisponível neste navegador. Comandos ainda funcionam.");
+}
+
+
+/* ============ EFEITO DE DIGITAÇÃO ============ */
+let typeTimer = null;
+function escrever(texto){
+    clearInterval(typeTimer);
+    voiceText.textContent = "";
+    let i = 0;
+    typeTimer = setInterval(()=>{
+        voiceText.textContent = texto.slice(0, ++i);
+        if(i >= texto.length) clearInterval(typeTimer);
+    }, 16);
+}
+
+
+/* ============ ESTADO ============ */
+function setListening(state){
+    listening = state;
+    micBtn.classList.toggle("listening", state);
+    voiceOrb.classList.toggle("listening", state);
+    micLabel.innerText = state ? "Ouvindo... toque para parar" : "Falar com JHONES";
+}
+
+
+/* ============ RECONHECIMENTO DE VOZ ============ */
+if(hasRecognition){
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = "pt-BR";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    micBtn.addEventListener("click", async ()=>{
+        if(!isSecure){
+            escrever("⚠️ Microfone só funciona em HTTPS ou localhost. Use o campo de texto abaixo para testar.");
+            return;
+        }
+
+        if(listening){
+            try { recognition.stop(); } catch(e){}
+            return;
+        }
+
+        // Pede permissão do microfone ANTES de iniciar o reconhecimento
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            stream.getTracks().forEach(t => t.stop());
+            ok(diagMic, "Microfone autorizado e funcionando");
+        } catch (e) {
+            err(diagMic, "Microfone bloqueado: " + e.name + ". Permita nas configurações do navegador.");
+            escrever("⚠️ Permissão do microfone negada. Vá em Configurações do site e permita o microfone.");
+            return;
+        }
+
+        try {
+            recognition.start();
+        } catch (e) {
+            escrever("Erro ao iniciar: " + e.message);
+        }
+    });
+
+    recognition.onstart = ()=>{
+        setListening(true);
+        escrever("Estou ouvindo...");
+    };
+
+    recognition.onresult = (event)=>{
+        const text = event.results[0][0].transcript;
+        escrever("Você disse: " + text);
+        setTimeout(()=>interpretar(text), 500);
+    };
+
+    recognition.onend = ()=> setListening(false);
+
+    recognition.onerror = (e)=>{
+        setListening(false);
+        let msg = "Erro: " + e.error;
+        if(e.error === "not-allowed") msg = "Permissão do microfone negada. Permita nas configurações.";
+        if(e.error === "no-speech") msg = "Não ouvi nada. Tente falar mais perto do microfone.";
+        if(e.error === "network") msg = "Falha de rede. Verifique sua internet.";
+        if(e.error === "service-not-allowed") msg = "Serviço de voz bloqueado. Use HTTPS.";
+        if(e.error === "aborted") msg = "Captura cancelada.";
+        escrever(msg);
+    };
+}else{
+    micBtn.addEventListener("click", ()=>{
+        escrever("⚠️ Seu navegador não suporta voz. Use Chrome ou Edge. Use o campo de texto abaixo.");
+    });
+}
+
+
+/* ============ ENTRADA POR TEXTO ============ */
+const cmdInput = document.getElementById("cmdInput");
+const cmdBtn = document.getElementById("cmdBtn");
+
+function enviarComando(){
+    const texto = cmdInput.value.trim();
+    if(!texto) return;
+    escrever("Comando: " + texto);
+    cmdInput.value = "";
+    setTimeout(()=>interpretar(texto), 300);
+}
+
+cmdBtn.addEventListener("click", enviarComando);
+cmdInput.addEventListener("keydown", e=>{ if(e.key === "Enter") enviarComando(); });
+
+
+/* ============ MÉTRICAS ============ */
+function atualizarTudo(){
+    const cards = tasksGrid.querySelectorAll(".task-card");
+    let done = 0, prog = 0, pend = 0;
+
+    cards.forEach(card=>{
+        if(card.classList.contains("done")) done++;
+        else if(card.classList.contains("progress")) prog++;
+        else pend++;
+    });
+
+    const total = cards.length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+
+    document.getElementById("statTotal").innerText = total;
+    document.getElementById("statDone").innerText = done;
+    document.getElementById("statProgress").innerText = prog;
+    document.getElementById("statPending").innerText = pend;
+    document.getElementById("heroValue").innerHTML = pct + '<small>% concluído</small>';
+    document.getElementById("heroFill").style.width = pct + "%";
+    document.getElementById("heroDone").innerText = done + " de " + total + " tarefas";
+    document.getElementById("taskCount").innerText = total + (total === 1 ? " tarefa" : " tarefas");
+}
+
+
+/* ============ ÍCONES ============ */
+const iconDoc = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+const iconCar = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>`;
+const iconCheck = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`;
+const iconClock = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+
+
+/* ============ CRIAR CARD ============ */
+function criarCard(titulo, meta, classe, icone){
+    const label = classe === "done" ? "Concluída" : classe === "progress" ? "Em andamento" : "Pendente";
+    const card = document.createElement("div");
+    card.className = "task-card " + classe;
+    card.innerHTML = `
+        <div class="task-card-top">
+            <div class="task-badge">${icone}</div>
+            <span class="task-status">${label}</span>
+        </div>
+        <div class="task-title">${titulo}</div>
+        <div class="task-meta">${iconClock}${meta}</div>
+    `;
+    tasksGrid.appendChild(card);
+    atualizarTudo();
+}
+
+
+/* ============ ALTERAR STATUS ============ */
+function atualizarStatus(nome, status, classe){
+    const cards = tasksGrid.querySelectorAll(".task-card");
+    cards.forEach(card=>{
+        const titulo = card.querySelector(".task-title");
+        if(titulo && titulo.innerText.toLowerCase().includes(nome.toLowerCase())){
+            card.className = "task-card " + classe;
+            card.querySelector(".task-status").innerText = status;
+            const badge = card.querySelector(".task-badge");
+            if(classe === "done") badge.innerHTML = iconCheck;
+            else if(classe === "progress") badge.innerHTML = iconCar;
+            else badge.innerHTML = iconDoc;
+        }
+    });
+    atualizarTudo();
+}
+
+
+/* ============ INTERPRETAÇÃO ============ */
+function interpretar(text){
+    const frase = text.toLowerCase();
+    const fraseLimpa = frase.trim();
+
+    // Comandos
+    if(fraseLimpa.includes("finalizei") || fraseLimpa.includes("finalizar") || fraseLimpa.includes("concluí") || fraseLimpa.includes("conclui")){
+        atualizarStatus("Troca de veículo","Concluída","done");
+        falar("Entendido. Finalizei a tarefa.");
+        registrar("Tarefa finalizada");
+        return;
+    }
+
+    if(fraseLimpa.includes("a caminho") || fraseLimpa.includes("estou indo")){
+        atualizarStatus("Troca de veículo","Em andamento","progress");
+        falar("Certo. Alterei a tarefa para em andamento.");
+        registrar("Status alterado para em andamento");
+        return;
+    }
+
+    if(fraseLimpa.includes("o que tenho") || fraseLimpa.includes("tarefas de hoje") || fraseLimpa.includes("minhas tarefas")){
+        falar("Você possui atividades programadas para hoje.");
+        registrar("Consulta das tarefas do dia");
+        return;
+    }
+
+    // Se for comando de criar tarefa, limpa o "crie uma tarefa" do texto
+    let titulo = text;
+    if(fraseLimpa.includes("crie") || fraseLimpa.includes("criar") || fraseLimpa.includes("nova tarefa") || fraseLimpa.includes("inicie uma tarefa")){
+        titulo = text
+            .replace(/crie\s+(uma\s+)?tarefa\s*/i, "")
+            .replace(/criar\s+(uma\s+)?tarefa\s*/i, "")
+            .replace(/nova\s+tarefa\s*/i, "")
+            .replace(/inicie\s+(uma\s+)?tarefa\s*/i, "")
+            .trim();
+        if(!titulo) titulo = text; // se ficou vazio, usa o texto original
+    }
+
+    // FALLBACK: Se não bateu em nenhum comando, cria a tarefa com o texto
+    criarCard(titulo, "Adicionada agora", "pending", iconDoc);
+    falar("Entendido. Adicionei a tarefa: " + titulo);
+    registrar("Nova tarefa: " + titulo);
+}
+
+
+/* ============ HISTÓRICO ============ */
+function registrar(texto){
+    const history = document.getElementById("history");
+    const item = document.createElement("div");
+    item.className = "history-item";
+    const time = new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    item.innerHTML = `<span>${texto}</span><span class="time">${time}</span>`;
+    history.prepend(item);
+}
+
+
+/* ============ FALA DO JHONES ============ */
+function carregarVozes(){
+    if(!hasSynth) return;
+    try {
+        const voices = speechSynthesis.getVoices();
+        if(voices.length > 0){
+            ok(diagSyn, "Síntese pronta — " + voices.length + " vozes disponíveis");
+        }
+    } catch(e){}
+}
+
+if(hasSynth){
+    carregarVozes();
+    speechSynthesis.onvoiceschanged = carregarVozes;
+}
+
+function falar(texto){
+    if(!hasSynth){
+        console.warn("Síntese de voz indisponível");
+        return;
+    }
+
+    try {
+        // Cancela qualquer fala anterior
+        speechSynthesis.cancel();
+
+        const voz = new SpeechSynthesisUtterance(texto);
+        voz.lang = "pt-BR";
+        voz.rate = 1;
+        voz.pitch = 1;
+        voz.volume = 1;
+
+        // Tenta escolher uma voz em português
+        const voices = speechSynthesis.getVoices();
+        const ptVoice = voices.find(v => v.lang.startsWith("pt"));
+        if(ptVoice) voz.voice = ptVoice;
+
+        voz.onerror = (e)=>{
+            console.warn("Erro na fala:", e.error);
+        };
+
+        speechSynthesis.speak(voz);
+    } catch(e) {
+        console.warn("Falha ao tentar falar:", e);
+    }
+}
+
+
+/* ============ INIT ============ */
+atualizarTudo();
+
+// Desbloqueia a síntese no primeiro clique (exigência de alguns navegadores mobile)
+document.body.addEventListener("click", function unlock(){
+    if(hasSynth){
+        try {
+            const u = new SpeechSynthesisUtterance("");
+            u.volume = 0;
+            speechSynthesis.speak(u);
+        } catch(e){}
+    }
+    document.body.removeEventListener("click", unlock);
+}, {once:true});
+
+</script>
+
+</body>
+</html>
